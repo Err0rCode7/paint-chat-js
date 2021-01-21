@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Client</title>
+  </head>
+  <body>
+    <div class="container">
+      <h3>Socket.io Chat Example</h3>
+      <form class="form-inline" id="chatForm">
+        <div class="form-group">
+          <label for="msgForm">Message: </label>
+          <input type="text" class="form-control" id="msgForm" />
+        </div>
+        <button type="submit" class="btn btn-primary" id="formBtn">Send</button>
+      </form>
+      <div id="chatLogs"></div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const chatlog = document.getElementById("chatLogs");
+      const formBtn = document.getElementById("formBtn");
+      const chatForm = document.getElementById("chatForm");
+
+      function buttonClicked() {
+        console.log(`${document.domain}:${location.port}`);
+        const socket = io(`${document.domain}:${location.port}`);
+        socket.emit("login", {
+          name: makeRandomName(),
+          userid: "test_id",
+        });
+
+        socket.on("login", (data) => {
+          const msg = "<div><strong>" + data + "</strong> has joined</div>";
+          chatlog.innerHTML = chatlog.innerHTML + msg;
+        });
+
+        socket.on("chat", (data) => {
+          const msg =
+            '<div id="chatMsg">' +
+            "<strong>" +
+            data.from.name +
+            "</strong>" +
+            ": " +
+            "<div style='display:inline'>" +
+            data.msg +
+            "</div>";
+          chatlog.innerHTML = chatlog.innerHTML + msg;
+        });
+
+        socket.on("loggedOut", (name) => {
+          const msg = "<div><strong>" + name + "</strong> went out</div>";
+          chatlog.innerHTML = chatlog.innerHTML + msg;
+        });
+
+        formBtn.addEventListener("click", (event) => {
+          event.preventDefault();
+          const input = document.getElementById("msgForm");
+          socket.emit("chat", { msg: input.value });
+          input.value = "";
+        });
+
+        function makeRandomName() {
+          let name = "";
+          const possible = "abcdefghijklmnopqrstuvwxyz";
+          for (let i = 0; i < 7; i++) {
+            name += possible.charAt(
+              Math.floor(Math.random() * possible.length)
+            );
+          }
+          return name;
+        }
+      }
+
+      buttonClicked();
+    </script>
+  </body>
+</html>
