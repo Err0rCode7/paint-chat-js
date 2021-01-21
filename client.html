@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Client</title>
+    <title>ChatApp</title>
   </head>
   <body>
     <div class="container">
@@ -14,6 +14,9 @@
           <input type="text" class="form-control" id="msgForm" />
         </div>
         <button type="submit" class="btn btn-primary" id="formBtn">Send</button>
+        <button type="submit" class="btn btn-primary" id="clearBtn">
+          Clear
+        </button>
       </form>
       <div id="chatLogs"></div>
     </div>
@@ -22,6 +25,7 @@
       const chatlog = document.getElementById("chatLogs");
       const formBtn = document.getElementById("formBtn");
       const chatForm = document.getElementById("chatForm");
+      const clearBtn = document.getElementById("clearBtn");
 
       function buttonClicked() {
         console.log(`${document.domain}:${location.port}`);
@@ -59,6 +63,11 @@
           const input = document.getElementById("msgForm");
           socket.emit("chat", { msg: input.value });
           input.value = "";
+        });
+
+        clearBtn.addEventListener("click", (event) => {
+          event.preventDefault();
+          chatlog.innerHTML = "";
         });
 
         function makeRandomName() {
