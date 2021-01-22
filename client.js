@@ -1,15 +1,41 @@
-const chatlog = document.getElementById("chatLogs");
+"use strict";
+
+let chatlog = document.getElementById("chatLogs");
 const formBtn = document.getElementById("formBtn");
 const chatForm = document.getElementById("chatForm");
 const clearBtn = document.getElementById("clearBtn");
+const userName = document.getElementById("userName");
+const nameBtn = document.getElementById("nameBtn");
 
-function buttonClicked() {
-  console.log(`${document.domain}:${location.port}`);
-  const socket = io(`${document.domain}:${location.port}`);
-  socket.emit("login", {
-    name: makeRandomName(),
+let user = -1;
+let socket = -1;
+let socket_paint = -1;
+
+nameBtn.addEventListener("click", (event) => {
+  if (socket != -1 || socket_paint != -1) {
+    return;
+  }
+  if (
+    userName.value == null ||
+    typeof userName.value == "undefined" ||
+    userName.value == ""
+  ) {
+    alert("이름을 다시 입력해주세요");
+    return;
+  }
+  user = {
+    name: userName.value,
     userid: "test_id",
-  });
+  };
+  event.preventDefault();
+  joinChat(user);
+  joinPaint();
+});
+
+function joinChat(user) {
+  console.log(`${document.domain}:${location.port}`);
+  socket = io(`${document.domain}:${location.port}`);
+  socket.emit("login", user);
 
   socket.on("login", (data) => {
     const msg = "<div><strong>" + data + "</strong> has joined</div>";
@@ -27,6 +53,7 @@ function buttonClicked() {
       data.msg +
       "</div>";
     chatlog.innerHTML = chatlog.innerHTML + msg;
+    chatlog.scrollTop = chatlog.scrollHeight;
   });
 
   socket.on("loggedOut", (name) => {
@@ -55,5 +82,3 @@ function buttonClicked() {
     return name;
   }
 }
-
-buttonClicked();

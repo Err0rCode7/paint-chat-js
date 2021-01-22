@@ -9,12 +9,101 @@ body {
   padding: 50px 0px;
 }
 
+input {
+  box-shadow: none;
+}
+
 .canvas {
   width: 700px;
   height: 700px;
   background-color: white;
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.btn {
+  all: unset;
+  cursor: pointer;
+  background-color: white;
+  padding: 5px 0px;
+  width: 80px;
+  height: 10px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.join {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+}
+
+.name__space {
+  width: 400px;
+  padding-bottom: 20px;
+}
+
+.name__label {
+  width: 400px;
+  font-size: 20px;
+  font-weight: 800px;
+  padding-bottom: 10px;
+  align-items: center;
+}
+
+.chatroom {
+  display: flex;
+  width: 160px;
+  font-weight: 800;
+  font-size: 20px;
+  padding-left: 2.5em;
+}
+
+.chat__input__form {
+  padding-top: 7px;
+}
+
+.input_default,
+.chat__input {
+  width: 185px;
+  height: 20px;
+  padding-right: 1.6em;
+  border: 0px;
+  border-radius: 10px;
+  background-color: #dcdcdc;
+}
+
+.chat-inline {
+  display: inline-block;
+  padding-bottom: 1em;
+}
+
+.chatlogs {
+  overflow: auto;
+  overflow-x: hidden;
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-all;
+  width: 300px;
+  height: 630px;
+  background-color: #f7f9fa;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.socketct {
+  padding-left: 0.5em;
 }
 
 .controls {
