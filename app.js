@@ -112,10 +112,11 @@ function strokeSocketCanvas(data) {
   } = data;
   const tempFillStyle = ctx.fillStyle;
   const tempStrokeStyle = ctx.strokeStyle;
+  const tempLineWidth = ctx.lineWidth;
   ctx.fillStyle = fill_color;
   ctx.strokeStyle = pen_color;
+  ctx.lineWidth = lineWidth;
 
-  console.log(l_x, l_y);
   if (painting) {
     ctx.beginPath();
     ctx.moveTo(p_x, p_y);
@@ -133,6 +134,7 @@ function strokeSocketCanvas(data) {
 
   ctx.fillStyle = tempFillStyle;
   ctx.strokeStyle = tempStrokeStyle;
+  ctx.lineWidth = tempLineWidth;
 }
 
 function strokeCanvas(data) {
@@ -195,7 +197,6 @@ function handleCanvasClick(event) {
 function handleCM(event) {
   // 우클릭 창 안띄우기
   event.preventDefault();
-  console.log(event);
 }
 
 function handleSaveClick(evnet) {

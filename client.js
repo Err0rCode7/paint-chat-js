@@ -18,7 +18,9 @@ nameBtn.addEventListener("click", (event) => {
   if (
     userName.value == null ||
     typeof userName.value == "undefined" ||
-    userName.value == ""
+    userName.value == "null" ||
+    userName.value == "" ||
+    userName.value.length > 10
   ) {
     alert("이름을 다시 입력해주세요");
     return;
@@ -33,18 +35,20 @@ nameBtn.addEventListener("click", (event) => {
 });
 
 function joinChat(user) {
-  console.log(`${document.domain}:${location.port}`);
   socket = io(`${document.domain}:${location.port}`);
   socket.emit("login", user);
 
   socket.on("login", (data) => {
-    const msg = "<div><strong>" + data + "</strong> has joined</div>";
+    const msg =
+      '<div class="chat__content"><strong>' +
+      data +
+      "</strong> has joined</div>";
     chatlog.innerHTML = chatlog.innerHTML + msg;
   });
 
   socket.on("chat", (data) => {
     const msg =
-      '<div id="chatMsg">' +
+      '<div class="chat__content" id="chatMsg">' +
       "<strong>" +
       data.from.name +
       "</strong>" +
@@ -57,13 +61,21 @@ function joinChat(user) {
   });
 
   socket.on("loggedOut", (name) => {
-    const msg = "<div><strong>" + name + "</strong> went out</div>";
+    const msg =
+      '<div class="chat__content"><strong>' + name + "</strong> went out</div>";
     chatlog.innerHTML = chatlog.innerHTML + msg;
   });
 
   formBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const input = document.getElementById("msgForm");
+    if (
+      input.value == "" ||
+      typeof input.value == undefined ||
+      input.value == null
+    ) {
+      return;
+    }
     socket.emit("chat", { msg: input.value });
     input.value = "";
   });

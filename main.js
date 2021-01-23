@@ -3,6 +3,7 @@ const express = require("express");
 const http = require("http");
 const cors = require("cors");
 const path = require("path");
+const request_ip = require("request-ip");
 
 const app = express();
 app.use(cors());
@@ -25,7 +26,9 @@ io.on("connection", (socket) => {
     console.log(
       "Client logged-in:\n name:" + data.name + "\n userid: " + data.userid
     );
-    socket.name = data.name;
+    ip = socket.request.connection.remoteAddress;
+    ip = ip.substring(7, ip.length - 1);
+    socket.name = data.name + "(" + ip + ")";
     socket.userid = data.userid;
 
     io.emit("login", data.name);
